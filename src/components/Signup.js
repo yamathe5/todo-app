@@ -2,7 +2,8 @@ import React from 'react'
 import {Form,Button,Card,Alert} from "react-bootstrap"
 import { useAuth } from '../context/AuthContext'
 import { Link, useNavigate } from "react-router-dom"
-
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db } from '../firebase.js';
 
 export default function Signup() {
   const emailRef = React.useRef()
@@ -14,6 +15,19 @@ export default function Signup() {
   const [loading, setLoading] = React.useState(false)
   const navigate  = useNavigate()
 
+  async function handleAdd(newUser){
+    try {
+      await setDoc(doc(db, "users", newUser.user.uid), {
+        email: emailRef.current.value,
+        todos: [],
+        timeStamp: serverTimestamp(),
+      });
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
 
   async function handleSubmit(e){
     e.preventDefault()
@@ -24,7 +38,8 @@ export default function Signup() {
     try {
       setError("")
       setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
+      const newUser = await signup(emailRef.current.value, passwordRef.current.value)
+      handleAdd(newUser)
       navigate('/')
     } catch (error) {
       setError("Failed to create an account")
