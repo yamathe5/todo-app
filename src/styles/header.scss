@@ -5,8 +5,33 @@
   justify-content: center;
   &__container{
     display: flex;
-    p {
+    justify-items: center;
+    a {
+      font-size: 1.6rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      justify-self: center;
+      text-align: center;
+      line-height: 5rem;
+      text-decoration: none;
+      color: black;
       font-weight: normal;
+      &:hover{
+        color: #55a9f7;
+        border-bottom: 1px solid #55a9f7;
+      }
+    }
+    button {
+      background-color: #fff;
+      font-weight: normal;
+      font-size: 1.6rem;
+      padding-left: 1.6rem;
+      padding-right: 1.6rem;
+      border: none;
+      &:hover{
+        color: #55a9f7;
+        border-bottom: 1px solid #55a9f7;
+      }
     }
   }
 }
