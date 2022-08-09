@@ -2,6 +2,12 @@ import React from 'react'
 import Header from '../components/Header'
 import Todos from '../components/Todos'
 
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db } from '../firebase.js';
+import { useAuth } from "../context/AuthContext"
+import { getDocs } from 'firebase/firestore';
+import ResizeTextArea from "../features/ResizeTextArea.js"
+
 function reducer(state, action){
   switch (action.type) {
     case "add-todo":
@@ -18,6 +24,9 @@ function reducer(state, action){
     case "delete-todo":
       state = state.filter((todo)=> todo.id !== action.payload.id)
       return state
+    case "set-data":
+      state = action.payload.data
+      return state
     default:
       return state 
   }
@@ -32,16 +41,65 @@ export default function MyNotes() {
   const [content, setContent] = React.useState("")
   const [todos, dispatch] = React.useReducer(reducer,[])
 
+  const { currentUser } = useAuth()
+
+  React.useEffect(()=>{
+    let list = []
+    async function fetchData (){
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"))
+        querySnapshot.forEach((doc)=>{
+          if(doc.id === currentUser.uid){
+            list = doc.data().todos
+          }
+        })
+        dispatch({type:"set-data", payload:{data:list}})
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    fetchData();
+  },[])
+
+  async function deleteTodo(todoId){
+    let newList = [] 
+    newList = todos.filter((todo)=> todo.id !== todoId)
+    try {
+      await setDoc(doc(db, "users", currentUser.uid.toString()), {
+        todos: newList,
+        email: currentUser.email,
+        timeStamp: serverTimestamp(),
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function addNoteToMyPage(name, content){
+    let todo = newTodo(name, content)
+    try {
+      await setDoc(doc(db, "users", currentUser.uid.toString()), {
+        todos: [...todos, todo],
+        email:currentUser.email,
+        timeStamp: serverTimestamp(),
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   function handleChangeName(e){
     setName(e.target.value)
   }
   function handleChangeContent(e){
+    ResizeTextArea(e,"56px")
     setContent(e.target.value)
   }
 
   function handleSubmit(e){
     e.preventDefault()
     dispatch({type:"add-todo", todo:newTodo(name, content)})
+    addNoteToMyPage(name, content)
     setName("")
     setContent("")
   }
@@ -49,16 +107,16 @@ export default function MyNotes() {
   return (
     <>
       <Header></Header>
-      <div className='container'>
+      <div className='css-container'>
         <form className='form' onSubmit={handleSubmit} >
 
-          <label for="title" className="input">
+          <label htmlFor="title" className="input">
             <input type="text" id="title" placeholder="&nbsp;" onChange={handleChangeName} value={name}/>
             <span className="label">Titulo</span>
             <span className="focus-bg"></span>
           </label>
-          <label for="content" className="input">
-            <input type="text" id="content" placeholder="&nbsp;" onChange={handleChangeContent} value={content}/>
+          <label htmlFor="content" className="input">
+            <textarea type="text" id="content" placeholder="&nbsp;" onChange={handleChangeContent} value={content}/>
             <span className="label">Contenido</span>
             <span className="focus-bg"></span>
           </label>
@@ -66,7 +124,7 @@ export default function MyNotes() {
           <button className='input-btn' type="submit">Set todo</button>
         </form>
         
-        <Todos todos={todos} dispatch={dispatch}/>
+        <Todos todos={todos} dispatch={dispatch} deleteTodo={deleteTodo}/>
       </div>
     </>
   )
