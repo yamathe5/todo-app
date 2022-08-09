@@ -1,7 +1,13 @@
 import React from 'react';
-import Todos from './components/Todos';
 import Header from './components/Header';
 import "./styles/index.scss"
+import LoginPage from './pages/LoginPage';
+import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import SignupPage from './pages/SignupPage';
+import CommunityPage from './pages/CommunityPage';
+import MyNotes from './pages/MyNotes';
+import PrivateRoutes from './components/PrivateRoutes';
 
 function reducer(state, action){
   switch (action.type) {
@@ -29,28 +35,43 @@ function newTodo(name, content){
 }
 
 function App() {
-  const [name, setName] = React.useState("")
-  const [content, setContent] = React.useState("")
-  const [todos, dispatch] = React.useReducer(reducer,[])
+  // const [name, setName] = React.useState("")
+  // const [content, setContent] = React.useState("")
+  // const [todos, dispatch] = React.useReducer(reducer,[])
 
-  function handleChangeName(e){
-    setName(e.target.value)
-  }
-  function handleChangeContent(e){
-    setContent(e.target.value)
-  }
+  // function handleChangeName(e){
+  //   setName(e.target.value)
+  // }
+  // function handleChangeContent(e){
+  //   setContent(e.target.value)
+  // }
 
-  function handleSubmit(e){
-    e.preventDefault()
-    dispatch({type:"add-todo", todo:newTodo(name, content)})
-    setName("")
-    setContent("")
-  }
+  // function handleSubmit(e){
+  //   e.preventDefault()
+  //   dispatch({type:"add-todo", todo:newTodo(name, content)})
+  //   setName("")
+  //   setContent("")
+  // }
 
   return (
     <>
-      <Header></Header>
-      <div className='container'>
+    
+    <Router>
+
+      <AuthProvider>
+        <Routes>
+          <Route exact path='/login' element={ <LoginPage/>}/>
+          <Route exact path='/signup' element={ <SignupPage/>}/>
+          <Route path='/' element={<PrivateRoutes/>}>
+            <Route path='/' element={ <MyNotes/>}/>
+          </Route>
+          <Route path='/community' element={<PrivateRoutes/>}>
+            <Route path='/community' element={ <CommunityPage/>}/>
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </Router>
+      {/* <div className='container'>
         <form className='form' onSubmit={handleSubmit} >
           <label for="title" className="input">
             <input type="text" id="title" placeholder="&nbsp;" onChange={handleChangeName} value={name}/>
@@ -65,7 +86,7 @@ function App() {
           <button className='input-btn' type="submit">Set todo</button>
         </form>
         <Todos todos={todos} dispatch={dispatch}/>
-      </div>
+      </div> */}
     </>
   );
 }
