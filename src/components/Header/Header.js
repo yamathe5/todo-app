@@ -16,7 +16,6 @@ export default function Header() {
         <h2>Comunity Page</h2>
         <h2>My Page</h2>
         <Button variant="link" onClick={handleLogout}>Log Out</Button>
-
       </div>
     </div>
   )
