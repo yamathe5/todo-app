@@ -8,6 +8,7 @@ import SignupPage from './pages/SignupPage';
 import CommunityPage from './pages/CommunityPage';
 import MyNotes from './pages/MyNotes';
 import PrivateRoutes from './components/PrivateRoutes';
+import UserPrivateRoutes from './components/UserPrivateRoutes';
 
 function reducer(state, action){
   switch (action.type) {
@@ -54,23 +55,29 @@ function App() {
   // }
 
   return (
-    <>
+    <div className='app-container'>
     
-    <Router>
+      <Router>
 
-      <AuthProvider>
-        <Routes>
-          <Route exact path='/login' element={ <LoginPage/>}/>
-          <Route exact path='/signup' element={ <SignupPage/>}/>
-          <Route path='/' element={<PrivateRoutes/>}>
-            <Route path='/' element={ <MyNotes/>}/>
-          </Route>
-          <Route path='/community' element={<PrivateRoutes/>}>
-            <Route path='/community' element={ <CommunityPage/>}/>
-          </Route>
-        </Routes>
-      </AuthProvider>
-    </Router>
+        <AuthProvider>
+          <Routes>
+            
+            <Route path='/login' element={<UserPrivateRoutes/>}>
+              <Route path='/login' element={ <LoginPage/>}/>
+            </Route>
+            <Route path='/signup' element={<UserPrivateRoutes/>}>
+              <Route path='/signup' element={ <SignupPage/>}/>
+            </Route>
+
+            <Route exact path='/' element={<PrivateRoutes/>}>
+              <Route path='/' element={ <MyNotes/>}/>
+            </Route>
+            <Route path='/community' element={<PrivateRoutes/>}>
+              <Route path='/community' element={ <CommunityPage/>}/>
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </Router>
       {/* <div className='container'>
         <form className='form' onSubmit={handleSubmit} >
           <label for="title" className="input">
@@ -87,7 +94,7 @@ function App() {
         </form>
         <Todos todos={todos} dispatch={dispatch}/>
       </div> */}
-    </>
+    </div>
   );
 }
 
