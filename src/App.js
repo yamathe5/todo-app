@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './components/Header';
 import "./styles/index.scss"
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './context/AuthContext';
@@ -8,31 +7,32 @@ import SignupPage from './pages/SignupPage';
 import CommunityPage from './pages/CommunityPage';
 import MyNotes from './pages/MyNotes';
 import PrivateRoutes from './components/PrivateRoutes';
+import UserPrivateRoutes from './components/UserPrivateRoutes';
 
-function reducer(state, action){
-  switch (action.type) {
-    case "add-todo":
-      state = [...state, action.todo]
-      return state
-    case "complete-todo":
-      state = state.map((todo)=>{
-        if (todo.id === action.payload.id){
-          return {...todo, complete:!todo.complete}
-        }
-        return todo
-      })
-      return state 
-    case "delete-todo":
-      state = state.filter((todo)=> todo.id !== action.payload.id)
-      return state
-    default:
-      return state 
-  }
-}
+// function reducer(state, action){
+//   switch (action.type) {
+//     case "add-todo":
+//       state = [...state, action.todo]
+//       return state
+//     case "complete-todo":
+//       state = state.map((todo)=>{
+//         if (todo.id === action.payload.id){
+//           return {...todo, complete:!todo.complete}
+//         }
+//         return todo
+//       })
+//       return state 
+//     case "delete-todo":
+//       state = state.filter((todo)=> todo.id !== action.payload.id)
+//       return state
+//     default:
+//       return state 
+//   }
+// }
 
-function newTodo(name, content){
-  return {id:Date.now(), name: name, content:content, complete:false }
-}
+// function newTodo(name, content){
+//   return {id:Date.now(), name: name, content:content, complete:false }
+// }
 
 function App() {
   // const [name, setName] = React.useState("")
@@ -54,23 +54,29 @@ function App() {
   // }
 
   return (
-    <>
+    <div className='app-container'>
     
-    <Router>
+      <Router>
 
-      <AuthProvider>
-        <Routes>
-          <Route exact path='/login' element={ <LoginPage/>}/>
-          <Route exact path='/signup' element={ <SignupPage/>}/>
-          <Route path='/' element={<PrivateRoutes/>}>
-            <Route path='/' element={ <MyNotes/>}/>
-          </Route>
-          <Route path='/community' element={<PrivateRoutes/>}>
-            <Route path='/community' element={ <CommunityPage/>}/>
-          </Route>
-        </Routes>
-      </AuthProvider>
-    </Router>
+        <AuthProvider>
+          <Routes>
+            
+            <Route path='/login' element={<UserPrivateRoutes/>}>
+              <Route path='/login' element={ <LoginPage/>}/>
+            </Route>
+            <Route path='/signup' element={<UserPrivateRoutes/>}>
+              <Route path='/signup' element={ <SignupPage/>}/>
+            </Route>
+
+            <Route exact path='/' element={<PrivateRoutes/>}>
+              <Route path='/' element={ <MyNotes/>}/>
+            </Route>
+            <Route path='/community' element={<PrivateRoutes/>}>
+              <Route path='/community' element={ <CommunityPage/>}/>
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </Router>
       {/* <div className='container'>
         <form className='form' onSubmit={handleSubmit} >
           <label for="title" className="input">
@@ -87,7 +93,7 @@ function App() {
         </form>
         <Todos todos={todos} dispatch={dispatch}/>
       </div> */}
-    </>
+    </div>
   );
 }
 
