@@ -1,8 +1,9 @@
 import React from 'react'
-// import { Auth } from 'firebase/auth'
-import { Button } from "react-bootstrap"
+// import { Button } from "react-bootstrap"
+import { Link } from 'react-router-dom'
 
 import { useAuth } from '../../context/AuthContext'
+
 export default function Header() {
   const { logout } = useAuth()
 
@@ -13,9 +14,9 @@ export default function Header() {
   return (
     <div className='header'>
       <div className='header__container'>
-        <h2>Comunity Page</h2>
-        <h2>My Page</h2>
-        <Button variant="link" onClick={handleLogout}>Log Out</Button>
+        <Link to='/community'>Comunity Page</Link>
+        <Link to='/'>My Page</Link>
+        <button variant="link" onClick={handleLogout}>Log out</button>
       </div>
     </div>
   )
