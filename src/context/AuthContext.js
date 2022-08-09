@@ -7,8 +7,6 @@ import { createUserWithEmailAndPassword,
   updateEmail,
   updatePassword,
   onAuthStateChanged } from "firebase/auth";
-import { getDocs,collection } from 'firebase/firestore';
-import { db } from '../firebase.js';
 
 const AuthContext = React.createContext()
 

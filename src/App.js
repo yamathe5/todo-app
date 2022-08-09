@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './components/Header';
 import "./styles/index.scss"
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './context/AuthContext';
@@ -10,30 +9,30 @@ import MyNotes from './pages/MyNotes';
 import PrivateRoutes from './components/PrivateRoutes';
 import UserPrivateRoutes from './components/UserPrivateRoutes';
 
-function reducer(state, action){
-  switch (action.type) {
-    case "add-todo":
-      state = [...state, action.todo]
-      return state
-    case "complete-todo":
-      state = state.map((todo)=>{
-        if (todo.id === action.payload.id){
-          return {...todo, complete:!todo.complete}
-        }
-        return todo
-      })
-      return state 
-    case "delete-todo":
-      state = state.filter((todo)=> todo.id !== action.payload.id)
-      return state
-    default:
-      return state 
-  }
-}
+// function reducer(state, action){
+//   switch (action.type) {
+//     case "add-todo":
+//       state = [...state, action.todo]
+//       return state
+//     case "complete-todo":
+//       state = state.map((todo)=>{
+//         if (todo.id === action.payload.id){
+//           return {...todo, complete:!todo.complete}
+//         }
+//         return todo
+//       })
+//       return state 
+//     case "delete-todo":
+//       state = state.filter((todo)=> todo.id !== action.payload.id)
+//       return state
+//     default:
+//       return state 
+//   }
+// }
 
-function newTodo(name, content){
-  return {id:Date.now(), name: name, content:content, complete:false }
-}
+// function newTodo(name, content){
+//   return {id:Date.now(), name: name, content:content, complete:false }
+// }
 
 function App() {
   // const [name, setName] = React.useState("")

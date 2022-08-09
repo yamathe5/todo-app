@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../components/Header'
 import Todos from '../components/Todos'
 
-import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from '../firebase.js';
 import { useAuth } from "../context/AuthContext"
 import { getDocs } from 'firebase/firestore';
@@ -59,7 +59,7 @@ export default function MyNotes() {
       }
     };
     fetchData();
-  },[])
+  },[currentUser.uid])
 
   async function deleteTodo(todoId){
     let newList = [] 
