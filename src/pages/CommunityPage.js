@@ -6,12 +6,13 @@ import { db } from '../firebase';
 import { serverTimestamp } from 'firebase/firestore';
 import { doc, setDoc } from 'firebase/firestore';
 import { collection, getDocs } from 'firebase/firestore';
+import ResizeTextArea from '../features/ResizeTextArea';
 // import { useEffect } from 'react';
 
 function reducer(state, action){
   switch (action.type) {
     case "add-todo":
-      state = [...state, action.todo]
+      state = [action.todo, ...state]
       return state
     case "complete-todo":
       state = state.map((todo)=>{
@@ -25,11 +26,15 @@ function reducer(state, action){
       state = state.filter((todo)=> todo.id !== action.payload.id)
       return state
     case "set-data":
-      state = action.payload.data
-      return state
+      // state = action.payload.data
+      return orderData(action.payload.data)
     default:
       return state 
   }
+}
+
+function orderData(list){
+  return list.sort((a,b)=> b.id-a.id)
 }
 
 function newTodo(name, content){
@@ -74,8 +79,11 @@ function CommunityPage() {
     setName(e.target.value)
   }
   function handleChangeContent(e){
+    ResizeTextArea(e, "56px")
     setContent(e.target.value)
   }
+
+
 
   function handleSubmit(e){
     e.preventDefault()
@@ -97,7 +105,7 @@ function CommunityPage() {
             <span className="focus-bg"></span>
           </label>
           <label htmlFor="content" className="input">
-            <input type="text" id="content" placeholder="&nbsp;" onChange={handleChangeContent} value={content}/>
+            <textarea type="text" id="content" placeholder="&nbsp;" onChange={handleChangeContent} value={content}/>
             <span className="label">Contenido</span>
             <span className="focus-bg"></span>
           </label>

@@ -11,7 +11,7 @@ import ResizeTextArea from "../features/ResizeTextArea.js"
 function reducer(state, action){
   switch (action.type) {
     case "add-todo":
-      state = [...state, action.todo]
+      state = [action.todo, ...state]
       return state
     case "complete-todo":
       state = state.map((todo)=>{
@@ -25,8 +25,7 @@ function reducer(state, action){
       state = state.filter((todo)=> todo.id !== action.payload.id)
       return state
     case "set-data":
-      state = action.payload.data
-      return state
+      return orderData(action.payload.data)
     default:
       return state 
   }
@@ -34,6 +33,10 @@ function reducer(state, action){
 
 function newTodo(name, content){
   return {id:Date.now(), name: name, content:content, complete:false }
+}
+
+function orderData(list){
+  return list.sort((a,b)=> b.id-a.id)
 }
 
 export default function MyNotes() {
@@ -53,6 +56,7 @@ export default function MyNotes() {
             list = doc.data().todos
           }
         })
+        
         dispatch({type:"set-data", payload:{data:list}})
       } catch (error) {
         console.log(error)
