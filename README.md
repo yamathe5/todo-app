@@ -1,6 +1,22 @@
-# Getting Started with Create React App
+# Todo App with Create React App + Bootstrap
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Funcionalidades - Obejtivo del proyecto
+
+EL objetivo del proyecto fue crear una aplicacion con autenticacion de usuario mediante firebase, en la cual el usuario puede crear notas personales o aportar notas a la comunidad
+
+## Tenologias utilizadas
+
+- React 
+- Bootstrap
+- Firebase
+
+## Aprendizaje o enfoque
+
+- Firebase: Cree un login simple para mis usuarios, autenticacion del usuario y autenticacion de sesion activa
+- Firebase database: Aprendi a crear bases de datos en Firebase
+- Sass: Manejo de clases, pseudoclases (hover, etc) y mixins 
+- BEM: Uso de la convencion BEM con enfasis en Sass y denominacion BEM de las clases. 
+- read-less-read-more componentes: Aprendi a descargar y utilizar un componente de github para reat
 
 ## Available Scripts
 
