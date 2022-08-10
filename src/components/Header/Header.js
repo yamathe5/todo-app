@@ -14,8 +14,8 @@ export default function Header() {
   return (
     <div className='header'>
       <div className='header__container'>
-        <Link to='/community'>Comunity Page</Link>
         <Link to='/'>My Page</Link>
+        <Link to='/community'>Comunity Page</Link>
         <button variant="link" onClick={handleLogout}>Log out</button>
       </div>
     </div>
