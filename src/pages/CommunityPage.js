@@ -1,7 +1,6 @@
 import React from 'react';
 import Todos from '../components/Todos';
 import "../styles/index.scss"
-import Header from '../components/Header';
 import { db } from '../firebase';
 import { serverTimestamp } from 'firebase/firestore';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';

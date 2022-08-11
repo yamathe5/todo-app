@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '../components/Header'
 import Todos from '../components/Todos'
 
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
@@ -110,7 +109,6 @@ export default function MyNotes() {
 
   return (
     <>
-      {/* <Header></Header> */}
       <div className='css-container'>
         <form className='form' onSubmit={handleSubmit} >
 
@@ -125,7 +123,7 @@ export default function MyNotes() {
             <span className="focus-bg"></span>
           </label>
 
-          <button className='input-btn' type="submit">Set todo</button>
+          <button className='input-btn' type="submit">Set Note</button>
         </form>
         
         <Todos todos={todos} dispatch={dispatch} deleteTodo={deleteTodo}/>
