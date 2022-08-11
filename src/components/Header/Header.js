@@ -1,11 +1,10 @@
 import React from 'react'
 // import { Button } from "react-bootstrap"
 import { Link } from 'react-router-dom'
-
 import { useAuth } from '../../context/AuthContext'
 
 export default function Header() {
-  const { logout } = useAuth()
+  const { currentUser, logout } = useAuth()
 
   function handleLogout(){
     logout()
@@ -16,7 +15,7 @@ export default function Header() {
       <div className='header__container'>
         <Link to='/'>My Page</Link>
         <Link to='/community'>Comunity Page</Link>
-        <button variant="link" onClick={handleLogout}>Log out</button>
+        {currentUser ? <button variant="link" onClick={handleLogout}>Log out</button> : ""}
       </div>
     </div>
   )
