@@ -4,10 +4,9 @@ import "../styles/index.scss"
 import Header from '../components/Header';
 import { db } from '../firebase';
 import { serverTimestamp } from 'firebase/firestore';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { collection, getDocs } from 'firebase/firestore';
 import ResizeTextArea from '../features/ResizeTextArea';
-// import { useEffect } from 'react';
 
 function reducer(state, action){
   switch (action.type) {
@@ -26,7 +25,6 @@ function reducer(state, action){
       state = state.filter((todo)=> todo.id !== action.payload.id)
       return state
     case "set-data":
-      // state = action.payload.data
       return orderData(action.payload.data)
     default:
       return state 
@@ -34,7 +32,11 @@ function reducer(state, action){
 }
 
 function orderData(list){
-  return list.sort((a,b)=> b.id-a.id)
+  return list.sort((a,b)=> b.id - a.id)
+}
+
+async function deleteTodo(todoId){
+  await deleteDoc(doc(db, "communityNotes", todoId.toString()))
 }
 
 function newTodo(name, content){
@@ -113,7 +115,7 @@ function CommunityPage() {
           <button className='input-btn' type="submit">Set todo</button>
         </form>
         
-        <Todos todos={todos} dispatch={dispatch}/>
+        <Todos todos={todos} dispatch={dispatch} deleteTodo={deleteTodo}/>
       </div>
     </>
   );
