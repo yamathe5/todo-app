@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { cloneElement } from 'react';
 import Todos from '../components/Todos';
 import "../styles/index.scss"
 import Header from '../components/Header';
 import { db } from '../firebase';
 import { serverTimestamp } from 'firebase/firestore';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import ResizeTextArea from '../features/ResizeTextArea';
 
 function reducer(state, action){
@@ -49,20 +49,21 @@ function CommunityPage() {
   const [todos, dispatch] = React.useReducer(reducer,[])
 
   React.useEffect(()=>{
-    let list = []
-    async function fetchData (){
-      try {
-        const querySnapshot = await getDocs(collection(db, "communityNotes"))
-        querySnapshot.forEach((doc)=>{
-          list.push(doc.data())
-          // console.log(doc.id, " => ", doc.data())
-        })
-        dispatch({type:"set-data", payload:{data:list}})
-      } catch (error) {
-        console.log(error)
-      }
-    };
-    fetchData();
+
+    const unsub = onSnapshot(collection(db, "communityNotes"), (snapShot) => {
+      let list = []
+      snapShot.docs.forEach((doc)=>{
+        console.log(doc.data())
+        list.push(doc.data())
+      })
+      dispatch({type:"set-data", payload:{data:list}})
+    },(error) => {
+      console.log(error)
+    });
+
+    return () => {
+      unsub()
+    }
   },[])
   
   async function addNoteToCommunity(){
