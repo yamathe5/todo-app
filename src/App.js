@@ -36,22 +36,6 @@ function App() {
           </Routes>
         </AuthProvider>
       </Router>
-      {/* <div className='container'>
-        <form className='form' onSubmit={handleSubmit} >
-          <label for="title" className="input">
-            <input type="text" id="title" placeholder="&nbsp;" onChange={handleChangeName} value={name}/>
-            <span className="label">Titulo</span>
-            <span className="focus-bg"></span>
-          </label>
-          <label for="content" className="input">
-            <input type="text" id="content" placeholder="&nbsp;" onChange={handleChangeContent} value={content}/>
-            <span className="label">Contenido</span>
-            <span className="focus-bg"></span>
-          </label>
-          <button className='input-btn' type="submit">Set todo</button>
-        </form>
-        <Todos todos={todos} dispatch={dispatch}/>
-      </div> */}
     </div>
   );
 }
