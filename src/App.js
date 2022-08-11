@@ -8,30 +8,33 @@ import CommunityPage from './pages/CommunityPage';
 import MyNotes from './pages/MyNotes';
 import PrivateRoutes from './components/PrivateRoutes';
 import UserPrivateRoutes from './components/UserPrivateRoutes';
+import Header from './components/Header';
 
 
 function App() {
 
   return (
+      
     <div className='app-container'>
-    
       <Router>
 
         <AuthProvider>
+          <Header/>
           <Routes>
             
             <Route path='/login' element={<UserPrivateRoutes/>}>
               <Route path='/login' element={ <LoginPage/>}/>
             </Route>
+            
             <Route path='/signup' element={<UserPrivateRoutes/>}>
               <Route path='/signup' element={ <SignupPage/>}/>
             </Route>
 
-            <Route exact path='/' element={<PrivateRoutes/>}>
-              <Route path='/' element={ <MyNotes/>}/>
+            <Route path='/my-notes' element={<PrivateRoutes/>}>
+              <Route path='/my-notes' element={ <MyNotes/>}/>
             </Route>
             
-            <Route path='/community' element={ <CommunityPage/>}/>
+            <Route path='/*' element={ <CommunityPage/>}/>
             
           </Routes>
         </AuthProvider>

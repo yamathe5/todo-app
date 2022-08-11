@@ -110,7 +110,7 @@ export default function MyNotes() {
 
   return (
     <>
-      <Header></Header>
+      {/* <Header></Header> */}
       <div className='css-container'>
         <form className='form' onSubmit={handleSubmit} >
 

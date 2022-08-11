@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react';
+import React from 'react';
 import Todos from '../components/Todos';
 import "../styles/index.scss"
 import Header from '../components/Header';
@@ -98,7 +98,6 @@ function CommunityPage() {
 
   return (
     <>
-      <Header></Header>
       <div className='css-container'>
         <form className='form' onSubmit={handleSubmit} >
 
@@ -113,7 +112,7 @@ function CommunityPage() {
             <span className="focus-bg"></span>
           </label>
 
-          <button className='input-btn' type="submit">Set todo</button>
+          <button className='input-btn' type="submit">Set Note</button>
         </form>
         
         <Todos todos={todos} dispatch={dispatch} deleteTodo={deleteTodo}/>

@@ -19,7 +19,7 @@ export default function Login() {
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
-      navigate('/')
+      navigate('/my-notes')
     } catch (error) {
       setError("Failed to log in")
     }
@@ -29,8 +29,7 @@ export default function Login() {
   return (
     <>
     <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{minHeight:"100vh"}}
+      className="d-flex align-items-center justify-content-center app"
     >
       <div className="w-100" style={{maxWidth:"400px"}}>
         <Card>

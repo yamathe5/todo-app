@@ -13,8 +13,8 @@ export default function Header() {
   return (
     <div className='header'>
       <div className='header__container'>
-        <Link to='/'>My Page</Link>
-        <Link to='/community'>Comunity Page</Link>
+        <Link to='/my-notes'>My Notes</Link>
+        <Link to='/'>Community Notes</Link>
         {currentUser ? <button variant="link" onClick={handleLogout}>Log out</button> : ""}
       </div>
     </div>
