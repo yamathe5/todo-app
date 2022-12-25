@@ -1,14 +1,14 @@
-@use './breakpoints' as u;
-@import './reset-style.scss', './header.scss';
+@use "./breakpoints" as u;
+@import "./reset-style.scss", "./header.scss";
 
 //Variables
 
-$primary: #0077FF;
+$primary: #0077ff;
 $dark: #000;
 
-.app-container{
+.app-container {
   min-width: 21.25rem;
-  background-color: #F1EEE9;
+  background-color: #f1eee9;
 }
 .app {
   min-height: calc(100vh - 50px);
@@ -19,18 +19,35 @@ $dark: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  // justify-content: center;
   min-width: 340px;
-  margin-top: 1.87rem;
+  margin-top: 1.2rem;
 }
 
+.logo-container {
+  width: auto;
+  height: auto;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  &__react {
+    width: 3.6rem;
+    margin-left: 1.2rem;
+  }
+  &__plus {
+    margin-left: 1.6rem;
+    font-size: 2rem;
+  }
+  &__firebase {
+    width: 14.6rem;
+  }
+}
 
 .form {
   max-width: 400px;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-  .input{
+  .input {
     position: relative;
     margin: auto;
     width: 100%;
@@ -38,37 +55,36 @@ $dark: #000;
     width: 100%;
     border-radius: 3px;
     overflow: hidden;
-  
-    .label{
+
+    .label {
       position: absolute;
       top: 16px;
       left: 12px;
       font-size: 16px;
-      color: rgba($dark,.5);
+      color: rgba($dark, 0.5);
       font-weight: 500;
       transform-origin: 0 0;
-      transform: translate3d(0,0,0);
-      transition: all .2s ease;
+      transform: translate3d(0, 0, 0);
+      transition: all 0.2s ease;
       pointer-events: none;
     }
-  
-    .focus-bg{
-  
+
+    .focus-bg {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba($dark,.05);
+      background: rgba($dark, 0.05);
       z-index: -1;
       transform: scaleX(0);
       transform-origin: left;
-      
     }
-    textarea{
+    textarea {
       max-height: 220px;
     }
-    input, textarea{
+    input,
+    textarea {
       resize: vertical;
       -webkit-appearance: none;
       appearance: none;
@@ -80,41 +96,40 @@ $dark: #000;
       height: 56px;
       font-size: 16px;
       font-weight: 400;
-      background: rgba($dark,.02);
-      box-shadow: inset 0 -1px 0 rgba($dark,.3);
+      background: rgba($dark, 0.02);
+      box-shadow: inset 0 -1px 0 rgba($dark, 0.3);
       color: $dark;
-      transition: all .15s ease;
-      
+      transition: all 0.15s ease;
+
       &:hover {
-        background: rgba($dark,.04);
-        box-shadow: inset 0 -1px 0 rgba($dark,.5);
+        background: rgba($dark, 0.04);
+        box-shadow: inset 0 -1px 0 rgba($dark, 0.5);
       }
-      
-      &:not(:placeholder-shown){
-      + .label{
-  
-        color: rgba($dark,.5);
-        transform: translate3d(0,-12px,0) scale(.75);
+
+      &:not(:placeholder-shown) {
+        + .label {
+          color: rgba($dark, 0.5);
+          transform: translate3d(0, -12px, 0) scale(0.75);
         }
       }
-        
-      &:focus{
-        background: rgba($dark,.05);
+
+      &:focus {
+        background: rgba($dark, 0.05);
         outline: none;
         box-shadow: inset 0 -2px 0 $primary;
-        + .label{
+        + .label {
           color: $primary;
-          transform: translate3d(0,-12px,0) scale(.75);
+          transform: translate3d(0, -12px, 0) scale(0.75);
         }
-        + .focus-bg{
+        + .focus-bg {
           transform: scaleX(1);
-          transition: all .1s ease;
+          transition: all 0.1s ease;
         }
-      }    
+      }
     }
   }
 
-  .input-btn{
+  .input-btn {
     width: 100%;
     max-width: 40rem;
     background-color: transparent;
@@ -123,59 +138,57 @@ $dark: #000;
     margin-top: 0.8rem;
     // border: 1px solid #15133C;
     border: none;
-    box-shadow: -6px -6px 14px rgba(255, 255, 255, .7),
-    -6px -6px 10px rgba(255, 255, 255, .5),
-    6px 6px 8px rgba(255, 255, 255, .075),
-    6px 6px 10px rgba(0, 0, 0, .15);
+    box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.7),
+      -6px -6px 10px rgba(255, 255, 255, 0.5),
+      6px 6px 8px rgba(255, 255, 255, 0.075), 6px 6px 10px rgba(0, 0, 0, 0.15);
 
     &:hover {
-      box-shadow: -2px -2px 6px rgba(255, 255, 255, .6),
-                  -2px -2px 4px rgba(255, 255, 255, .4),
-                  2px 2px 2px rgba(255, 255, 255, .05),
-                  2px 2px 4px rgba(0, 0, 0, .1);
+      box-shadow: -2px -2px 6px rgba(255, 255, 255, 0.6),
+        -2px -2px 4px rgba(255, 255, 255, 0.4),
+        2px 2px 2px rgba(255, 255, 255, 0.05), 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
     &:active {
-      box-shadow: inset -2px -2px 6px rgba(255, 255, 255, .7),
-                  inset -2px -2px 4px rgba(255, 255, 255, .5),
-                  inset 2px 2px 2px rgba(255, 255, 255, .075),
-                  inset 2px 2px 4px rgba(0, 0, 0, .15);
+      box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.7),
+        inset -2px -2px 4px rgba(255, 255, 255, 0.5),
+        inset 2px 2px 2px rgba(255, 255, 255, 0.075),
+        inset 2px 2px 4px rgba(0, 0, 0, 0.15);
     }
 
     background-color: white;
   }
-    
 }
 
-.todo-list{
+.todo-list {
   width: 80%;
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
   margin-top: 2.25rem;
 }
-.todo{
+.todo {
   position: relative;
   border-radius: 8px;
   padding: 12px;
   min-height: 45px;
-  
-  box-shadow: -6px -6px 14px rgba(255, 255, 255, .7),
-  -6px -6px 10px rgba(255, 255, 255, .5),
-  6px 6px 8px rgba(255, 255, 255, .075),
-  6px 6px 10px rgba(0, 0, 0, .15);
   background-color: #fff;
   overflow-wrap: break-word;
   height: auto;
+  background-color: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  cursor: default;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  overflow-wrap: break-word;
   &__title {
     font-size: 18px;
   }
-  &__content{
+  &__content {
     font-size: 16px;
     margin-bottom: 10px;
   }
-  
-  
-  &__delete{
+
+  &__delete {
     color: white;
     background-color: white;
     border: none;
@@ -187,16 +200,11 @@ $dark: #000;
 
     opacity: 1;
 
-    @include u.breakpoint(xlarge){
+    @include u.breakpoint(xlarge) {
       opacity: 0;
     }
   }
-  &:hover &__delete{
+  &:hover &__delete {
     opacity: 1;
   }
 }
-
-
-
-
-

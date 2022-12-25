@@ -41,6 +41,7 @@ export function AuthProvider({children}) {
   function updatePasswordCall(password){
     return updatePassword(currentUser, password)
   }
+  
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -49,11 +50,30 @@ export function AuthProvider({children}) {
     })
     return unsubscribe
   },[])
+/*
+  async function getUserFromFirestore(user){
+    let firestoreUser = await getDoc(doc(db, "users", user.uid.toString()))
+    firestoreUser = firestoreUser.data()
+    return firestoreUser
+  }
 
- 
-
-
-
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      // setCurrentUser(user)
+      // if(currentUser){
+        let firestoreUser;
+        getUserFromFirestore(user).then((u)=>{
+          firestoreUser = {...u, uid: user.uid}
+          console.log(firestoreUser)
+          setCurrentUser(firestoreUser)
+        })
+        // }
+        setLoading(false)
+      
+    })
+    return unsubscribe
+  },[])
+*/
   const value = {
     currentUser,
     signup,

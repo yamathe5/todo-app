@@ -1,10 +1,10 @@
 import React from 'react'
 import Todos from '../components/Todos'
 
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from '../firebase.js';
 import { useAuth } from "../context/AuthContext"
-import { getDocs } from 'firebase/firestore';
+import { getDoc } from 'firebase/firestore';
 import ResizeTextArea from "../features/ResizeTextArea.js"
 
 function reducer(state, action){
@@ -31,17 +31,30 @@ function reducer(state, action){
 }
 
 function newTodo(name, content){
-  return {id:Date.now(), name: name, content:content, complete:false }
+  return {id:Date.now(), name: name, content:content, complete:false, }
+}
+
+async function addNoteToMyPage(userData, currentUser, name, content, todos){
+  let todo = newTodo(name, content)
+  try {
+    await setDoc(doc(db, "users", currentUser.uid.toString()), {
+      ...userData,
+      todos: [...todos, todo],
+    });
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function orderData(list){
-  return list.sort((a,b)=> b.id-a.id)
+  return list.sort((a, b)=> b.id - a.id)
 }
 
 export default function MyNotes() {
   const [name, setName] = React.useState("")
   const [content, setContent] = React.useState("")
   const [todos, dispatch] = React.useReducer(reducer,[])
+  const [userData, setUserData] = React.useState(null)
 
   const { currentUser } = useAuth()
 
@@ -49,13 +62,9 @@ export default function MyNotes() {
     let list = []
     async function fetchData (){
       try {
-        const querySnapshot = await getDocs(collection(db, "users"))
-        querySnapshot.forEach((doc)=>{
-          if(doc.id === currentUser.uid){
-            list = doc.data().todos
-          }
-        })
-        
+        const querySnapshot = await getDoc(doc(db, "users", currentUser.uid))
+        list = querySnapshot.data().todos
+        setUserData(querySnapshot.data())
         dispatch({type:"set-data", payload:{data:list}})
       } catch (error) {
         console.log(error)
@@ -69,22 +78,8 @@ export default function MyNotes() {
     newList = todos.filter((todo)=> todo.id !== todoId)
     try {
       await setDoc(doc(db, "users", currentUser.uid.toString()), {
+        ...userData,
         todos: newList,
-        email: currentUser.email,
-        timeStamp: serverTimestamp(),
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function addNoteToMyPage(name, content){
-    let todo = newTodo(name, content)
-    try {
-      await setDoc(doc(db, "users", currentUser.uid.toString()), {
-        todos: [...todos, todo],
-        email:currentUser.email,
-        timeStamp: serverTimestamp(),
       });
     } catch (error) {
       console.log(error)
@@ -102,7 +97,7 @@ export default function MyNotes() {
   function handleSubmit(e){
     e.preventDefault()
     dispatch({type:"add-todo", todo:newTodo(name, content)})
-    addNoteToMyPage(name, content)
+    addNoteToMyPage(userData, currentUser, name, content, todos)
     setName("")
     setContent("")
   }
